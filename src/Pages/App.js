@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './styles/main.css';
-import Note from './note';
+import Note from '../Components/note';
+import Knob from '../Components/knob';
 
 function App() {
   const [key, setKey] = useState(1);
@@ -12,31 +12,6 @@ function App() {
   const noteRefs = useRef([]);
   noteRefs.current = [];
 
-  // function createNote(){
-  //   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-  //   const vco = audioCtx.createOscillator();
-  //   vco.type = 'sawtooth';
-
-  //   const vca = audioCtx.createGain();
-  //   vca.gain.value = 0;
-
-  //   vco.connect(vca);
-  //   vca.connect(audioCtx.destination);
-
-  //   vco.start();
-
-  //   return [audioCtx, vco, vca];
-  // }
-
-  // const [ready, setReady] = useState(false);
-
-  // const vcos = (ready) ? keys.map(()=>{return createNote()}) : null;
-
-  // function playNote([ctx, vco, vca], note){
-  //   vco.frequency.setValueAtTime(note * key, ctx.currentTime);
-  //   vca.gain.setValueAtTime(1, ctx.currentTime);
-  // };
   function createEvent(eventType, event) {
     var resp = document.createEvent(eventType);
     resp.initEvent(event, true, true);
@@ -58,12 +33,6 @@ function App() {
         }
       }
     })
-    // document.addEventListener('keydown', (e)=>{
-    //   playNote(vcos[keys.indexOf(e.key)], notes[keys.indexOf(e.key)]);
-    // });
-    // document.addEventListener('keyup', (e)=>{
-    //   vcos[keys.indexOf(e.key)][2].gain.setValueAtTime(0, vcos[keys.indexOf(e.key)][0].currentTime);
-    // });
   })
 
   return (
@@ -71,6 +40,7 @@ function App() {
       {notes.map((note, index) => {
         return <Note key={`note${index}`} refs={noteRefs.current} note={note} />
       })}
+      <Knob/>
     </div>
   );
 }

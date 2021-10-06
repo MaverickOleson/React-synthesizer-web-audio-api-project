@@ -1,0 +1,17 @@
+$dim: 6vw;
+.knob {
+    width: $dim;
+    height: $dim;
+    border-radius: 50%;
+    background-color: black;
+    position: relative;
+    .knob-marker {
+        width: 3px;
+        height: 16px;
+        background-color: white;
+        transform-origin: bottom;
+        position: absolute;
+        bottom: 50%;
+        right: 50%;
+    }
+}
