@@ -2,6 +2,11 @@
 @use '../util/variables' as *;
 @use '../util/mixins' as *;
 
+.synth{
+    width: 100%;
+    height: 100vh;
+}
+
 .container {
     width: 90vw;
     margin: 5rem 0;
