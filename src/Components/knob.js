@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-export default function Knob({ value, fullRot, increment, min, factor }) {
+export default function Knob({ value = 0, fullRot = 180, rotateMin = -180, increment = 2, min, factor = 1 }) {
 
     const [rotation, setRotation] = useState(0);
 
@@ -8,7 +8,7 @@ export default function Knob({ value, fullRot, increment, min, factor }) {
         document.addEventListener('mousemove', rotate);
         function rotate(e2) {
             if (rotation + (e2.clientX - e1.clientX) * increment > fullRot) setRotation(fullRot);
-            else if (rotation + (e2.clientX - e1.clientX) * increment < -fullRot) setRotation(-fullRot);
+            else if (rotation + (e2.clientX - e1.clientX) * increment < rotateMin) setRotation(rotateMin);
             else {
                 setRotation(rotation + (e2.clientX - e1.clientX) * increment);
             }
@@ -20,7 +20,7 @@ export default function Knob({ value, fullRot, increment, min, factor }) {
         }
     }
     useEffect(() => {
-        value.current = (fullRot * factor + min) + rotation * factor;
+        value.current = (fullRot * factor + min * factor) + rotation * factor;
         console.log(value.current)
     })
 

@@ -15,32 +15,30 @@ function App() {
     const vca = audioCtx.createGain();
     vca.gain.setValueAtTime(0, audioCtx.currentTime);
 
-    var distortion = audioCtx.createWaveShaper();
+    const waveShaping = audioCtx.createWaveShaper();
 
-    function makeDistortionCurve(amount) {
-      var k = typeof amount === 'number' ? amount : 50,
-        n_samples = 44100,
-        curve = new Float32Array(n_samples),
-        deg = Math.PI / 180,
-        i = 0,
-        x;
-      for (; i < n_samples; ++i) {
-        x = i * 2 / n_samples - 1;
-        curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
-      }
-      return curve;
-    };
-
-    distortion.curve = makeDistortionCurve(400); sdf
+    // function makeDistortionCurve(amount) {
+    //   var k = typeof amount === 'number' ? amount : 50,
+    //     n_samples = 44100,
+    //     curve = new Float32Array(n_samples),
+    //     deg = Math.PI / 180,
+    //     i = 0,
+    //     x;
+    //   for (; i < n_samples; ++i) {
+    //     x = i * 2 / n_samples - 1;
+    //     curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+    //   }
+    //   return curve;
+    // };
 
     vco.connect(vca);
-    vca.connect(distortion);
-    distortion.connect(audioCtx.destination);
+    vca.connect(waveShaping);
+    waveShaping.connect(audioCtx.destination);
 
-    return { ctx: audioCtx, vco: vco, vca: vca };
+    return { ctx: audioCtx, vco: vco, vca: vca, waveShaping: waveShaping };
   }
 
-  const [vcos, setVcos] = useState([
+  const [vcos] = useState([
     createVco(),
     createVco(),
     createVco(),
@@ -85,6 +83,8 @@ function App() {
 
   const detune = useRef(0);
 
+  const waveShaping = useRef(1);
+
   const wave = useRef('sawtooth');
 
   function createEvent(eventType, event) {
@@ -121,7 +121,7 @@ function App() {
       <div className='modules'>
         <div className='module'>
           Gain
-          <Knob value={gain} fullRot={180} increment={2} min={0} factor={1 / 360} />
+          <Knob value={gain} increment={2} min={0} factor={1 / 360} />
           Octave
           <SwitchButtons value={octave} outputs={[-4, -3, -2, -1, 0, 1, 2, 3, 4]} info={[-4, -3, -2, -1, 0, 1, 2, 3, 4]} startIndex={4} />
           Waveform
@@ -129,12 +129,13 @@ function App() {
         </div>
         <div className='module'>
           Detune
-          <Knob value={detune} fullRot={180} increment={4} min={-3600} factor={20} />
+          <Knob value={detune} increment={4} min={-180} factor={20} />
         </div>
+        <div className='module'>Wave Shaper<Knob value={waveShaping} rotateMin={0} increment={3} min={-179} factor={1} /></div>
       </div>
       <div className='keyboard'>
         {noteKeys.map((noteKey, index) => {
-          return <Note key={`note${index}`} vco={vcos[index]} letter={noteKey} gain={gain} freq={frequencies[48 + index]} frequencies={frequencies} octave={octave} detune={detune} wave={wave} />
+          return <Note key={`note${index}`} vco={vcos[index]} letter={noteKey} gain={gain} freq={frequencies[48 + index]} frequencies={frequencies} octave={octave} detune={detune} wave={wave} waveShaping={waveShaping} />
         })}
       </div>
       <button onClick={() => {
