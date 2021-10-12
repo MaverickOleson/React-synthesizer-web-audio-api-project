@@ -1,9 +1,4 @@
-// for legacy browsers
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-
-const audioContext = new AudioContext();
-
-// pass it into the audio context
-function createMediaElementSource(audioElement){
-    return audioContext.createMediaElementSource(audioElement);
-}
+const audioContext = new AudioContext()
+await audioContext.audioWorklet.addModule('test-processor.js')
+const testNode = new AudioWorkletNode(audioContext, 'test-processor')
+testNode.connect(audioContext.destination)

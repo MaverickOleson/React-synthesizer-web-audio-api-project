@@ -1,26 +1,39 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
-export default function Note({ refs, note }) {
+export default React.memo(function Note({ vco, letter, gain, freq, frequencies, octave, detune, wave }) {
 
-    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function createEvent(eventType, event) {
+        var resp = document.createEvent(eventType);
+        resp.initEvent(event, true, true);
+        return resp;
+    }
 
-    // VCO
-    var vco = audioCtx.createOscillator();
-    vco.type = 'sawtooth';
-    vco.frequency.setValueAtTime(note, audioCtx.currentTime);
+    const ref = useRef();
 
-    // VCA
-    var vca = audioCtx.createGain();
-    vca.gain.value = 0;
+    useEffect(() => {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === letter) ref.current.dispatchEvent(createEvent('MouseEvents', 'pointerdown'));
+        })
+        document.addEventListener('keyup', (e) => {
+            if (e.key === letter) ref.current.dispatchEvent(createEvent('MouseEvents', 'pointerup'));
+        })
+    }, [])
 
-    vco.connect(vca);
-    vca.connect(audioCtx.destination);
-
-    function setRefs(el) {
-        refs.push(el);
+    function playNote() {
+        var octaveFreq = frequencies[frequencies.indexOf(freq) + octave.current * 12];
+        vco.vco.frequency.setValueAtTime((octaveFreq) ? octaveFreq : (frequencies[frequencies.length - 1]), vco.ctx.currentTime);
+        vco.vco.detune.setValueAtTime(detune.current, vco.ctx.currentTime);
+        vco.vco.type = wave.current;
+        vco.vca.gain.setValueAtTime(gain.current, vco.ctx.currentTime);
+        ref.current.addEventListener('mouseleave', pointerUp);
+        function pointerUp() {
+            ref.current.dispatchEvent(createEvent('MouseEvents', 'pointerup'));
+            ref.current.removeEventListener('mouseleave', pointerUp);
+        }
+        ref.current.className = 'note active';
     }
 
     return (
-        <button ref={setRefs} onMouseDown={() => { if (audioCtx.state === 'suspended') vco.start(); vca.gain.setValueAtTime(1, audioCtx.currentTime) }} onMouseUp={() => { vca.gain.setValueAtTime(0, audioCtx.currentTime) }}>Play Note</button>
+        <div className='note' ref={ref} onPointerDown={() => playNote()} onPointerUp={() => { vco.vca.gain.setValueAtTime(0, vco.ctx.currentTime); ref.current.className = 'note' }} onMouseEnter={(e) => { if (e.buttons > 0) ref.current.dispatchEvent(createEvent('MouseEvents', 'pointerdown')); }} />
     )
-}
+})

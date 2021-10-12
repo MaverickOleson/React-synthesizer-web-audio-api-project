@@ -1,5 +1,5 @@
-// @use './themes/defaultTheme';
-// @use './util/index';
-// @use './base';
+@import './themes/defaultTheme';
+@import './util/index';
+@import './base/index';
 @import './layout/app';
 @import './components/index';

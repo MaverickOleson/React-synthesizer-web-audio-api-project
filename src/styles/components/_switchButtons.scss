@@ -1,0 +1,27 @@
+.switchButtons{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    .output{
+        width: auto;
+        height: 1vw;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: 13px;
+        img{
+            width: 1vh;
+        }
+        div{
+            width: 1.5vh;
+            height: 1.5vh;
+            border-radius: 50%;
+            background-color: darkred;
+            cursor: pointer;
+            &.active{
+                background-color: red;
+            }
+        }
+    }
+}

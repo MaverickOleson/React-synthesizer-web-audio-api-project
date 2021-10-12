@@ -19,80 +19,253 @@ div{
         @include relative()
     }
 */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+main,
+article,
+aside,
+figure,
+footer,
+header,
+nav,
+section,
+details,
+summary {
+  display: block;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+img,
+object,
+embed {
+  max-width: 100%;
+  height: auto;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote::before, blockquote::after,
+q::before,
+q::after {
+  content: "";
+  content: none;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+abbr[title],
+dfn[title] {
+  border-bottom: 1px dotted #222;
+  cursor: help;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th {
+  font-weight: bold;
+  vertical-align: bottom;
+}
+
+td {
+  font-weight: normal;
+  vertical-align: top;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+input,
+select {
+  vertical-align: middle;
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  white-space: pre-line;
+  word-wrap: break-word;
+}
+
+input[type=radio] {
+  vertical-align: text-bottom;
+}
+
+input[type=checkbox] {
+  vertical-align: bottom;
+}
+
+.ie7 input[type=checkbox] {
+  vertical-align: baseline;
+}
+
+.ie6 input {
+  vertical-align: text-bottom;
+}
+
+select,
+input,
+textarea {
+  font-size: 99%;
+}
+
+small {
+  font-size: 85%;
+}
+
+strong {
+  font-weight: bold;
+}
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+.clickable,
+label,
+input[type=button],
+input[type=submit],
+input[type=file],
+button {
+  cursor: pointer;
+}
+
+button,
+input[type=button] {
+  width: auto;
+  overflow: hidden;
+  border-color: transparent;
+  text-transform: capitalize;
+}
+
+.ie7 img {
+  -ms-interpolation-mode: bicubic;
+}
+
+.clearfix::after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+
+/*
+div{
+    @include center-auto()
+}
+*/
+/*
+    div{
+        background-image: url('pic.jpg');
+        @include mixin.cover-background();
+    }
+*/
+/* .menu li {
+        @include absolute(top 100% left 0)    
+    }
+    .sticky-bar{
+        @include fixed(top 0 left 0)
+    }
+    .submenu{
+        @include relative()
+    }
+*/
+* {
+  user-select: none;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/*
+div{
+    @include center-auto()
+}
+*/
+/*
+    div{
+        background-image: url('pic.jpg');
+        @include mixin.cover-background();
+    }
+*/
+/* .menu li {
+        @include absolute(top 100% left 0)    
+    }
+    .sticky-bar{
+        @include fixed(top 0 left 0)
+    }
+    .submenu{
+        @include relative()
+    }
+*/
 .synth {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
-
-.container {
-  width: 90vw;
-  margin: 5rem 0;
-  max-width: 100px;
-  background: white;
-  border-radius: 0.25;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-.container h3 {
-  font-weight: normal;
-  text-transform: none;
-  margin-bottom: 2rem;
-}
-.container .buttons {
+.synth .modules {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
 }
-
-.section {
-  width: 90vw;
-  margin: 0 auto;
-  max-width: 1170px;
-}
-
-@media only screen and (min-width: 1024px) {
-  .section {
-    width: 95vw;
-  }
-}
-.btn {
+.synth .modules .module {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  width: 12rem;
-  border-color: transparent;
-  background: yellow;
-  font-weight: 700;
-  transition: all 0.5s linear;
-  border-radius: 0.25;
-  color: blue;
-  margin-left: 1rem;
-  align-self: center;
-  min-width: 2rem;
+  flex-direction: column;
 }
-.btn:hover {
-  color: purple;
-  background: green;
-}
-
-.loading {
-  text-align: center;
-}
-
-.underline {
-  width: 5rem;
-  height: 0.25rem;
-  margin-bottom: 1.25rem;
-  background: yellow;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.title {
-  margin-bottom: 4rem;
-  text-align: center;
+.synth .keyboard {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
 }
 
 .knob {
@@ -105,12 +278,63 @@ div{
 
 .knob .knob-marker {
   width: 3px;
-  height: 16px;
+  height: 2vw;
   background-color: white;
   transform-origin: bottom;
   position: absolute;
   bottom: 50%;
   right: 50%;
+}
+
+.note {
+  width: 4.5vw;
+  height: 10vh;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 4px solid black;
+  margin-right: -4px;
+  cursor: pointer;
+}
+
+.note:nth-of-type(12n - 10), .note:nth-of-type(12n - 8), .note:nth-of-type(12n - 5), .note:nth-of-type(12n - 3), .note:nth-of-type(12n - 1) {
+  width: 3vw;
+  background-color: black;
+}
+
+.note.active {
+  background-color: gray;
+}
+
+.switchButtons {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.switchButtons .output {
+  width: auto;
+  height: 1vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 13px;
+}
+
+.switchButtons .output img {
+  width: 1vh;
+}
+
+.switchButtons .output div {
+  width: 1.5vh;
+  height: 1.5vh;
+  border-radius: 50%;
+  background-color: darkred;
+  cursor: pointer;
+}
+
+.switchButtons .output div.active {
+  background-color: red;
 }
 
 /*# sourceMappingURL=main.css.map */
