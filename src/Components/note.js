@@ -1,41 +1,38 @@
 import React, { useEffect, useRef } from 'react'
 
-export default React.memo(function Note({ vco, letter, gain, freq, frequencies, octave, detune, wave, waveShaping }) {
+export default React.memo(function Note({ vco, letter, gain, freq, frequencies, octave, detune, wave, waveShaping, attack, decay, sustain, release }) {
 
-    function createEvent(eventType, event) {
-        var resp = document.createEvent(eventType);
-        resp.initEvent(event, true, true);
-        return resp;
-    }
+    const keyDown = useRef(false);
 
     const ref = useRef();
 
     useEffect(() => {
         document.addEventListener('keydown', (e) => {
-            if (e.key === letter) ref.current.dispatchEvent(createEvent('MouseEvents', 'pointerdown'));
-        })
+            if (!keyDown.current && e.key === letter) { ref.current.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); keyDown.current = true };
+        }, false)
         document.addEventListener('keyup', (e) => {
-            if (e.key === letter) ref.current.dispatchEvent(createEvent('MouseEvents', 'pointerup'));
-        })
+            if (e.key === letter) { ref.current.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: false })); keyDown.current = false; };
+        }, false)
     }, [])
 
-    function playNote() {
+    function playNote(e) {
         var octaveFreq = frequencies[frequencies.indexOf(freq) + octave.current * 12];
-        vco.vco.frequency.setValueAtTime((octaveFreq) ? octaveFreq : (frequencies[frequencies.length - 1]), vco.ctx.currentTime);
-        vco.vco.detune.setValueAtTime(detune.current, vco.ctx.currentTime);
+        vco.vco.frequency.setValueAtTime((octaveFreq) ? octaveFreq : (frequencies[frequencies.length - 1]), 0);
+        vco.vco.detune.setValueAtTime(detune.current, 0);
         vco.vco.type = wave.current;
         vco.waveShaping.curve = new Float32Array([waveShaping.current, -waveShaping.current]);
-        vco.waveShaping.curve.oversample = '4x'
-        vco.vca.gain.linearRampToValueAtTime(gain.current, vco.ctx.currentTime + 0.1);
+        vco.vca.gain.cancelScheduledValues(0);
+        vco.vca.gain.linearRampToValueAtTime(gain.current, vco.ctx.currentTime + attack.current);
+        vco.vca.gain.linearRampToValueAtTime(sustain.current, vco.ctx.currentTime + attack.current + decay.current);
         ref.current.addEventListener('mouseleave', pointerUp);
         function pointerUp() {
-            ref.current.dispatchEvent(createEvent('MouseEvents', 'pointerup'));
+            ref.current.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
             ref.current.removeEventListener('mouseleave', pointerUp);
         }
         ref.current.className = 'note active';
     }
 
     return (
-        <div className='note' ref={ref} onPointerDown={() => playNote()} onPointerUp={() => { vco.vca.gain.linearRampToValueAtTime(0, vco.ctx.currentTime); ref.current.className = 'note' }} onMouseEnter={(e) => { if (e.buttons > 0) ref.current.dispatchEvent(createEvent('MouseEvents', 'pointerdown')); }} />
+        <div className='note' ref={ref} onPointerDown={(e) => playNote(e)} onPointerUp={() => { vco.vca.gain.cancelScheduledValues(0); vco.vca.gain.linearRampToValueAtTime(0, vco.ctx.currentTime + release.current); ref.current.className = 'note' }} onMouseEnter={(e) => { if (e.buttons > 0) ref.current.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); }} />
     )
 })

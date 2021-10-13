@@ -13,7 +13,7 @@ function App() {
 
     // VCA
     const vca = audioCtx.createGain();
-    vca.gain.setValueAtTime(0, audioCtx.currentTime);
+    vca.gain.setValueAtTime(0, 0);
 
     const waveShaping = audioCtx.createWaveShaper();
 
@@ -31,11 +31,11 @@ function App() {
     //   return curve;
     // };
 
-    vco.connect(vca);
-    vca.connect(waveShaping);
-    waveShaping.connect(audioCtx.destination);
+    vco.connect(waveShaping);
+    waveShaping.connect(vca);//
+    vca.connect(audioCtx.destination);
 
-    return { ctx: audioCtx, vco: vco, vca: vca, waveShaping: waveShaping };
+    return { ctx: audioCtx, vco: vco, vca: vca, waveShaping: waveShaping, lfo: '' };
   }
 
   const [vcos] = useState([
@@ -87,11 +87,14 @@ function App() {
 
   const wave = useRef('sawtooth');
 
-  function createEvent(eventType, event) {
-    var resp = document.createEvent(eventType);
-    resp.initEvent(event, true, true);
-    return resp;
-  }
+  const attack = useRef(0);
+
+  const decay = useRef(0);
+
+  const sustain = useRef(gain.current);
+
+  const release = useRef(0);
+
 
   const [noteKeys, setNoteKeys] = useState([
     'a',
@@ -131,11 +134,21 @@ function App() {
           Detune
           <Knob value={detune} increment={4} min={-180} factor={20} />
         </div>
+        <div className='module'>
+          Attack
+          <Knob value={attack} increment={2} min={0} factor={1 / 180} />
+          Decay
+          <Knob value={decay} increment={2} min={0} factor={1 / 180} />
+          Sustain
+          <Knob value={sustain} increment={2} min={0} factor={1 / 360} />
+          Release
+          < Knob value={release} increment={2} min={0} factor={1 / 180} />
+        </div>
         <div className='module'>Wave Shaper<Knob value={waveShaping} rotateMin={0} increment={3} min={-179} factor={1} /></div>
       </div>
       <div className='keyboard'>
         {noteKeys.map((noteKey, index) => {
-          return <Note key={`note${index}`} vco={vcos[index]} letter={noteKey} gain={gain} freq={frequencies[48 + index]} frequencies={frequencies} octave={octave} detune={detune} wave={wave} waveShaping={waveShaping} />
+          return <Note key={`note${index}`} vco={vcos[index]} letter={noteKey} gain={gain} freq={frequencies[48 + index]} frequencies={frequencies} octave={octave} detune={detune} wave={wave} waveShaping={waveShaping} attack={attack} decay={decay} sustain={sustain} release={release} />
         })}
       </div>
       <button onClick={() => {
@@ -144,7 +157,7 @@ function App() {
             midiAccess.inputs.forEach(input => {
               input.onmidimessage = (msg) => {
                 if (msg.data[0] === 144) {
-                  document.getElementsByClassName('note')[msg.data[1] % 19].dispatchEvent(createEvent('MouseEvents', 'pointerdown'));
+                  document.getElementsByClassName('note')[msg.data[1] % 19].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
                   console.log(Math.pow(2, ((msg.data[1] - 69) / 12)) * 440)
                 }
               };
