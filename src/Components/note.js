@@ -9,13 +9,20 @@ export default React.memo(function Note({ vco, letter, gain, freq, frequencies, 
     useEffect(() => {
         document.addEventListener('keydown', (e) => {
             if (!keyDown.current && e.key === letter) { ref.current.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); keyDown.current = true };
-        }, false)
+        }, false);
         document.addEventListener('keyup', (e) => {
             if (e.key === letter) { ref.current.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: false })); keyDown.current = false; };
-        }, false)
+        }, false);
     }, [])
 
     function playNote(e) {
+        var real = new Float32Array([0,1]);
+        var imag = new Float32Array([0,0]);
+
+        var wave = vco.ctx.createPeriodicWave(real, imag, {disableNormalization: true});
+
+        vco.vco.setPeriodicWave(wave);
+        
         var octaveFreq = frequencies[frequencies.indexOf(freq) + octave.current * 12];
         vco.vco.frequency.setValueAtTime((octaveFreq) ? octaveFreq : (frequencies[frequencies.length - 1]), 0);
         vco.vco.detune.setValueAtTime(detune.current, 0);

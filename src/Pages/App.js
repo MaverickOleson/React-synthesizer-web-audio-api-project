@@ -126,9 +126,9 @@ function App() {
           Gain
           <Knob value={gain} increment={2} min={0} factor={1 / 360} />
           Octave
-          <SwitchButtons value={octave} outputs={[-4, -3, -2, -1, 0, 1, 2, 3, 4]} info={[-4, -3, -2, -1, 0, 1, 2, 3, 4]} startIndex={4} />
+          <SwitchButtons value={octave} outputs={[-4, -3, -2, -1, 0, 1, 2, 3, 4]} info={[-4, -3, -2, -1, 0, 1, 2, 3, 4]} startIndex={4} binds={['1', '2', '3', '4', '5', '6', '7', '8', '9']} />
           Waveform
-          <SwitchButtons value={wave} outputs={['sawtooth', 'square', 'triangle', 'sine']} info={['sawtooth', 'square', 'triangle', 'sine']} startIndex={0} />
+          <SwitchButtons value={wave} outputs={['sawtooth', 'square', 'triangle', 'sine']} info={['sawtooth', 'square', 'triangle', 'sine']} startIndex={0} binds={['z','x','c','v']} />
         </div>
         <div className='module'>
           Detune
@@ -136,15 +136,15 @@ function App() {
         </div>
         <div className='module'>
           Attack
-          <Knob value={attack} increment={2} min={0} factor={1 / 180} />
+          <Knob value={attack} init={-180} increment={2} min={0} factor={1 / 180} />
           Decay
-          <Knob value={decay} increment={2} min={0} factor={1 / 180} />
+          <Knob value={decay} init={-180} increment={2} min={0} factor={1 / 180} />
           Sustain
-          <Knob value={sustain} increment={2} min={0} factor={1 / 360} />
+          <Knob value={sustain} init={180} increment={2} min={0} factor={1 / 360} />
           Release
-          < Knob value={release} increment={2} min={0} factor={1 / 180} />
+          < Knob value={release} init={-180} increment={2} min={0} factor={1 / 180} />
         </div>
-        <div className='module'>Wave Shaper<Knob value={waveShaping} rotateMin={0} increment={3} min={-179} factor={1} /></div>
+        <div className='module'>Wave Shaper<Knob value={waveShaping} init={-180} increment={3} min={1} factor={1} /></div>
       </div>
       <div className='keyboard'>
         {noteKeys.map((noteKey, index) => {

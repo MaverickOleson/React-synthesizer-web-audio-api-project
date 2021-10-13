@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 
-export default function Knob({ value = 0, fullRot = 180, rotateMin = -180, increment = 2, min, factor = 1 }) {
+export default function Knob({ value = 0, fullRot = 180, init = 0, increment = 2, min, factor = 1 }) {
 
-    const [rotation, setRotation] = useState(0);
+    const [rotation, setRotation] = useState(init);
 
     function a(e1) {
         document.addEventListener('mousemove', rotate);
         function rotate(e2) {
             if (rotation + (e2.clientX - e1.clientX) * increment > fullRot) setRotation(fullRot);
-            else if (rotation + (e2.clientX - e1.clientX) * increment < rotateMin) setRotation(rotateMin);
+            else if (rotation + (e2.clientX - e1.clientX) * increment < -fullRot) setRotation(-fullRot);
             else {
                 setRotation(rotation + (e2.clientX - e1.clientX) * increment);
             }
