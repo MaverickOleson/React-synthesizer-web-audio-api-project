@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRef } from 'react/cjs/react.development';
 
-export default function SwitchButtons({ value, outputs, info, startIndex, binds }) {
+export default React.memo(function SwitchButtons({ value, outputs, info, startIndex, binds }) {
 
     const buttonsRef = useRef([]);
 
@@ -35,4 +35,4 @@ export default function SwitchButtons({ value, outputs, info, startIndex, binds 
             })}
         </div>
     )
-}
+});

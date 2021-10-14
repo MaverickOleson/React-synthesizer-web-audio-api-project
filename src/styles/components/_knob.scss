@@ -4,7 +4,16 @@ $knobDim: 6vw;
     width: $knobDim;
     height: $knobDim;
     border-radius: 50%;
-    background-color: black;
+    background: conic-gradient(
+        from 45deg,
+        #505050,
+        black,
+        #505050,
+        black,
+        #505050,
+        black,
+        #505050
+    );
     position: relative;
     .knob-marker {
         width: 3px;

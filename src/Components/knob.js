@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-export default function Knob({ value = 0, fullRot = 180, init = 0, increment = 2, min, factor = 1 }) {
+export default React.memo(function Knob({ value = 0, fullRot = 180, init = 0, increment = 2, min, factor = 1 }) {
 
     const [rotation, setRotation] = useState(init);
 
@@ -29,4 +29,4 @@ export default function Knob({ value = 0, fullRot = 180, init = 0, increment = 2
             <div className='knob-marker' style={{ transform: `translateX(50%) rotateZ(${rotation}deg)` }} />
         </div>
     )
-}
+});

@@ -2,22 +2,47 @@
 @import '../util/variables';
 @import '../util/mixins';
 
-.synth{
+.synth {
     width: 100%;
     height: 100%;
-    .modules{
-        width: 100%;
+    background-color: #7b3f00;
+    color: white;
+    .modules {
+        width: 95%;
+        height: 50%;
         display: flex;
         flex-direction: row;
-        .module{
+        background-color: black;
+        .module {
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
+            border: 2px solid white;
         }
     }
-    .keyboard{
+    .envelopes {
+        display: flex;
+        flex-direction: column;
+        .envelope {
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            box-sizing: border-box;
+            border: 2px solid white;
+        }
+    }
+    .keyboard {
+        width: 90%;
+        height: 50%;
         width: fit-content;
         display: flex;
         flex-direction: row;
+        background-color: black;
+        .note {
+            width: auto;
+            height: 10px;
+            background-color: white;
+        }
     }
 }
 

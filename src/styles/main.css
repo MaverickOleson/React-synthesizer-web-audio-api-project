@@ -62,7 +62,7 @@ embed {
 }
 
 html {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 ul {
@@ -226,6 +226,11 @@ div{
 
 body {
   min-height: 100vh;
+  background-color: black;
+}
+
+body #root {
+  height: 100vh;
 }
 
 /*
@@ -252,27 +257,58 @@ div{
 .synth {
   width: 100%;
   height: 100%;
+  background-color: #7b3f00;
+  color: white;
 }
+
 .synth .modules {
-  width: 100%;
+  width: 95%;
+  height: 50%;
   display: flex;
   flex-direction: row;
+  background-color: black;
 }
+
 .synth .modules .module {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  border: 2px solid white;
 }
+
+.synth .envelopes {
+  display: flex;
+  flex-direction: column;
+}
+
+.synth .envelopes .envelope {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  border: 2px solid white;
+}
+
 .synth .keyboard {
+  width: 90%;
+  height: 50%;
   width: fit-content;
   display: flex;
   flex-direction: row;
+  background-color: black;
+}
+
+.synth .keyboard .note {
+  width: auto;
+  height: 10px;
+  background-color: white;
 }
 
 .knob {
   width: 6vw;
   height: 6vw;
   border-radius: 50%;
-  background-color: black;
+  background: conic-gradient(from 45deg, #505050, black, #505050, black, #505050, black, #505050);
   position: relative;
 }
 
@@ -335,6 +371,26 @@ div{
 
 .switchButtons .output div.active {
   background-color: red;
+}
+
+.startPage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.startPage button {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 10px outset lightgray;
+  color: black;
+}
+
+.startPage button:hover {
+  opacity: 75%;
 }
 
 /*# sourceMappingURL=main.css.map */

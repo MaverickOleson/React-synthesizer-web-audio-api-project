@@ -59,4 +59,4 @@ export default React.memo(function Note({ oscBank, letter, gain1, gain2, freq, f
     return (
         <div className='note' ref={ref} onPointerDown={(e) => playNote(e)} onPointerUp={() => releaseNote()} onMouseEnter={(e) => { if (e.buttons > 0) ref.current.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); }} />
     )
-})
+});

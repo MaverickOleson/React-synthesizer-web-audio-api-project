@@ -2,9 +2,13 @@
 @import '../util/variables';
 @import '../util/mixins';
 
-*{
+* {
     user-select: none;
 }
 body {
     min-height: 100vh;
+    background-color: black;
+    #root {
+        height: 100vh;
+    }
 }
