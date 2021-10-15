@@ -3,22 +3,25 @@
     height: auto;
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
+    margin: 10px;
     .output{
-        width: auto;
-        height: 1vw;
+        width: 100%;
+        height: auto;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        margin-right: 13px;
+        justify-content: center;
         img{
             width: 1vh;
         }
         div{
-            width: 1.5vh;
-            height: 1.5vh;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background-color: darkred;
             cursor: pointer;
+            margin: 10px;
             &.active{
                 background-color: red;
             }

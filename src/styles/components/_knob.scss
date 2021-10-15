@@ -1,9 +1,12 @@
 @use 'sass:math';
-$knobDim: 6vw;
 .knob {
-    width: $knobDim;
-    height: $knobDim;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
     border-radius: 50%;
+    border: 2px solid white;
+    position: relative;
+    margin: 10px;
     background: conic-gradient(
         from 45deg,
         #505050,
@@ -14,14 +17,18 @@ $knobDim: 6vw;
         black,
         #505050
     );
-    position: relative;
     .knob-marker {
-        width: 3px;
-        height: math.div($knobDim, 3);
+        width: 3.5%;
+        height: 32%;
         background-color: white;
         transform-origin: bottom;
         position: absolute;
         bottom: 50%;
         right: 50%;
+    }
+    &:after{
+        content: "";
+        display: block;
+        padding-bottom: 100%;
     }
 }

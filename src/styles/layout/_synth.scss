@@ -5,106 +5,133 @@
 .synth {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding-top: 2%;
     background-color: #7b3f00;
     color: white;
+    text-align: center;
+    font-size: 16px;
+    *{
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .icon{
+        position: absolute;
+        font-size: 70px;
+        color: white;
+        &:last-of-type{
+            right: 0;
+        }
+    }
+    .textBox{
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+        p{
+            min-width: 50px;
+        }
+    }
+    .sep{
+        height: 2px;
+        width: 90%;
+        background-color: white;
+        margin: {
+            right: auto;
+            left: auto;
+        }
+    }
     .modules {
         width: 95%;
         height: 50%;
         display: flex;
         flex-direction: row;
         background-color: black;
+        overflow: auto;
+        position: relative;
         .module {
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
+            justify-content: space-evenly;
             box-sizing: border-box;
             border: 2px solid white;
+            .knob{
+                min-width: 50px;
+                max-width: 135px;
+                @media screen and (min-width: 955px) {
+                    width: 133px;
+                    margin: {
+                        right: auto;
+                        left: auto;
+                    }
+                }
+                @media screen and (orientation: landscape) {
+                    margin: {
+                        right: auto;
+                        left: auto;
+                    }
+                    @media screen and (max-height: 750px) {
+                        max-width: 100px;
+                    }
+                }
+            }
+            @media screen and (max-height: 750px) {
+                *{
+                    margin: {
+                        top: 0px;
+                        bottom: 0px;
+                    };
+                }
+            }
         }
     }
     .envelopes {
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         .envelope {
-            height: auto;
+            height: 100%;
+            width: 100%;
             display: flex;
             flex-direction: row;
+            align-items: center;
             box-sizing: border-box;
             border: 2px solid white;
+            .knob{
+                width: 100%;
+            }
+            @media screen and (max-width: 743px) {
+                flex-wrap: wrap;
+                overflow: auto;
+            }
         }
     }
     .keyboard {
-        width: 90%;
-        height: 50%;
-        width: fit-content;
+        width: 95%;
+        height: 100px;
         display: flex;
         flex-direction: row;
         background-color: black;
+        border-radius: 8px; 
         .note {
-            width: auto;
-            height: 10px;
-            background-color: white;
+            height: 100px;
+        }
+    }
+    .midi{
+        background-color: white;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid black;
+        margin-top: 20px;
+        &:hover{
+            background-color: #404040;
         }
     }
 }
-
-// .container {
-//     width: 90vw;
-//     margin: 5rem 0;
-//     max-width: $fixed-width;
-//     background: $white;
-//     border-radius: $radius;
-//     padding: 1.5rem 2rem;
-//     box-shadow: $dark-shadow;
-//     h3 {
-//         font-weight: normal;
-//         text-transform: none;
-//         margin-bottom: 2rem;
-//     }
-//     .buttons {
-//         @include flex-center;
-//     }
-// }
-// .section {
-//     width: 90vw;
-//     margin: 0 auto;
-//     max-width: $max-width;
-// }
-
-// @include large {
-//     .section {
-//         width: 95vw;
-//     }
-// }
-
-// .btn {
-//     @include flex-center;
-//     @include box(2rem);
-//     width: 12rem;
-//     border-color: transparent;
-//     background: $primary-4;
-//     font-weight: 700;
-//     transition: $transition;
-//     border-radius: $radius;
-//     color: $primary-9;
-//     margin-left: 1rem;
-//     align-self: center;
-//     min-width: 2rem;
-//     &:hover {
-//         color: $primary-1;
-//         background: $primary-8;
-//     }
-// }
-
-// .loading {
-//     text-align: center;
-// }
-
-// .underline {
-//     @include box(5rem, 0.25rem);
-//     margin-bottom: 1.25rem;
-//     background: $primary-4;
-//     @include center-auto;
-// }
-// .title {
-//     margin-bottom: 4rem;
-//     text-align: center;
-// }
