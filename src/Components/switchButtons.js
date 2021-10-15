@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useRef } from 'react/cjs/react.development';
+import React, { useRef, useEffect } from 'react';
 
 export default React.memo(function SwitchButtons({ value, outputs, info, startIndex, binds }) {
 
@@ -8,7 +7,7 @@ export default React.memo(function SwitchButtons({ value, outputs, info, startIn
     useEffect(() => {
         buttonsRef.current[startIndex].className = 'active';
         document.addEventListener('keydown', (e) => {
-            buttonsRef.current.map((button, index)=>{
+            buttonsRef.current.map((button, index) => {
                 if (e.key === binds[index]) button.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
             });
         });
