@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
-export default React.memo(function Note({ oscBank, letter, gain1, gain2, freq, frequencies, octave, detune1, detune2, wave1, wave2, attack1, decay1, sustain1, release1, attack2, decay2, sustain2, release2 }) {
+export default React.memo(function Note({ oscBank, letter, gain1, gain2, velocity, freq, frequencies, octave, detune1, detune2, wave1, wave2, attack1, decay1, sustain1, release1, attack2, decay2, sustain2, release2 }) {
 
     const keyDown = useRef(false);
 
@@ -25,10 +25,10 @@ export default React.memo(function Note({ oscBank, letter, gain1, gain2, freq, f
         oscBank.vco2.type = wave2.current;
         oscBank.vca1.gain.cancelScheduledValues(0);
         oscBank.vca2.gain.cancelScheduledValues(0);
-        oscBank.vca1.gain.linearRampToValueAtTime(gain1.current, oscBank.ctx.currentTime + attack1.current);
-        oscBank.vca2.gain.linearRampToValueAtTime(gain2.current, oscBank.ctx.currentTime + attack2.current);
-        oscBank.vca1.gain.linearRampToValueAtTime(sustain1.current * gain1.current, oscBank.ctx.currentTime + attack1.current + decay1.current);
-        oscBank.vca2.gain.linearRampToValueAtTime(sustain2.current * gain2.current, oscBank.ctx.currentTime + attack2.current + decay2.current);
+        oscBank.vca1.gain.linearRampToValueAtTime(gain1.current * velocity.current, oscBank.ctx.currentTime + attack1.current);
+        oscBank.vca2.gain.linearRampToValueAtTime(gain2.current * velocity.current, oscBank.ctx.currentTime + attack2.current);
+        oscBank.vca1.gain.linearRampToValueAtTime(sustain1.current * gain1.current * velocity.current, oscBank.ctx.currentTime + attack1.current + decay1.current);
+        oscBank.vca2.gain.linearRampToValueAtTime(sustain2.current * gain2.current * velocity.current, oscBank.ctx.currentTime + attack2.current + decay2.current);
         //values set
 
         ref.current.addEventListener('pointerleave', pointerUp);

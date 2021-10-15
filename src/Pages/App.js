@@ -70,6 +70,8 @@ function Synth() {
   const gain1 = useRef(0.5);
   const gain2 = useRef(0);
 
+  const velocity = useRef(1);
+
   const octave = useRef(0);
 
   const detune1 = useRef(0);
@@ -183,7 +185,7 @@ function Synth() {
         </div>
         <div className='keyboard'>
           {noteKeys.map((noteKey, index) => {
-            return <Note key={`note${index}`} oscBank={vcos[index]} letter={noteKey} gain1={gain1} gain2={gain2} freq={frequencies[48 + index]} frequencies={frequencies} octave={octave} detune1={detune1} detune2={detune2} wave1={wave1} wave2={wave2} attack1={attack1} decay1={decay1} sustain1={sustain1} release1={release1} attack2={attack2} decay2={decay2} sustain2={sustain2} release2={release2} />
+            return <Note key={`note${index}`} oscBank={vcos[index]} letter={noteKey} gain1={gain1} gain2={gain2} velocity={velocity} freq={frequencies[48 + index]} frequencies={frequencies} octave={octave} detune1={detune1} detune2={detune2} wave1={wave1} wave2={wave2} attack1={attack1} decay1={decay1} sustain1={sustain1} release1={release1} attack2={attack2} decay2={decay2} sustain2={sustain2} release2={release2} />
           })}
         </div>
         <button className='midi' onClick={() => {
@@ -193,12 +195,12 @@ function Synth() {
               midiAccess.inputs.forEach(input => {
                 input.onmidimessage = (msg) => {
                   if (msg.data[0] === 144) {
-                    gain1.current = msg.data[2] * 1 / 127;
-                    gain2.current = msg.data[2] * 1 / 127;
+                    velocity.current = msg.data[2] * 1 / 127;
                     document.getElementsByClassName('note')[(msg.data[1]) % noteKeys.length].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
                   }
                   if (msg.data[0] === 128) {
                     document.getElementsByClassName('note')[(msg.data[1]) % noteKeys.length].dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+                    velocity.current = 1;
                   }
                 };
               });
