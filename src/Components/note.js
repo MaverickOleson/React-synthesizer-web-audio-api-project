@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
-export default React.memo(function Note({ oscBank, letter, gain1, gain2, velocity, freq, frequencies, octave, detune1, detune2, wave1, wave2, attack1, decay1, sustain1, release1, attack2, decay2, sustain2, release2 }) {
+export default React.memo(function Note({ oscBank, letter, gain1, gain2, velocity, freq, frequencies, octave, detune1, detune2, wave1, wave2, attack1, decay1, sustain1, release1, attack2, decay2, sustain2, release2, oscilloscope }) {
 
     const keyDown = useRef(false);
 
@@ -48,6 +48,45 @@ export default React.memo(function Note({ oscBank, letter, gain1, gain2, velocit
         ref.current.className = 'note';
         //values and class reset
     }
+    // alert(oscilloscope.current)
+    // var canvasCtx = oscilloscope.getContext("2d");
+
+    // function draw() {
+
+    //     requestAnimationFrame(draw);
+
+    //     oscBank.analyser.getByteTimeDomainData(oscBank.dataArray);
+
+    //     canvasCtx.fillStyle = "rgb(200, 200, 200)";
+    //     canvasCtx.fillRect(0, 0, oscilloscope.width, oscilloscope.height);
+
+    //     canvasCtx.lineWidth = 2;
+    //     canvasCtx.strokeStyle = "rgb(0, 0, 0)";
+
+    //     canvasCtx.beginPath();
+
+    //     var sliceWidth = oscilloscope.width * 1.0 / oscBank.bufferLength;
+    //     var x = 0;
+
+    //     for (var i = 0; i < oscBank.bufferLength; i++) {
+
+    //         var v = oscBank.dataArray[i] / 128.0;
+    //         var y = v * oscilloscope.height / 2;
+
+    //         if (i === 0) {
+    //         canvasCtx.moveTo(x, y);
+    //         } else {
+    //         canvasCtx.lineTo(x, y);
+    //         }
+
+    //         x += sliceWidth;
+    //     }
+
+    //     canvasCtx.lineTo(oscilloscope.width, oscilloscope.height / 2);
+    //     canvasCtx.stroke();
+    // }
+
+    // draw();
 
     return (
         <div className='note' ref={ref} onPointerDown={(e) => playNote(e)} onPointerUp={() => releaseNote()} onPointerEnter={(e) => { if (e.buttons > 0) ref.current.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); }} />

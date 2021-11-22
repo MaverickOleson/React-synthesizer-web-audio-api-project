@@ -46,18 +46,26 @@ function Synth() {
     const vca1 = audioCtx.createGain();
     vca1.gain.setValueAtTime(0, 0);
 
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    analyser.getByteTimeDomainData(dataArray);
+
     const vco2 = audioCtx.createOscillator();
 
     const vca2 = audioCtx.createGain();
-    vca2.gain.setValueAtTime(0, 0)
+    vca2.gain.setValueAtTime(0, 0);
 
     vco1.connect(vca1);
-    vca1.connect(audioCtx.destination);
+    vca1.connect(analyser);
+    analyser.connect(audioCtx.destination);
 
     vco2.connect(vca2);
     vca2.connect(audioCtx.destination)
 
-    return { ctx: audioCtx, vco1: vco1, vca1: vca1, vco2: vco2, vca2: vca2 };
+    return { ctx: audioCtx, vco1: vco1, vca1: vca1, vco2: vco2, vca2: vca2, analyser, dataArray, bufferLength };
     //creates and returns sounds
   }
 
@@ -93,6 +101,8 @@ function Synth() {
   const release2 = useRef(0);
   //properties of sounds
 
+  const oscilloscope = useRef();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -120,6 +130,7 @@ function Synth() {
     return (
       <div className="synth">
         <div className='modules'>
+          <canvas ref={oscilloscope} />
           <FaWaveSquare className='icon' />
           <TiWaves className='icon' />
           <div className='module'>
@@ -185,7 +196,7 @@ function Synth() {
         </div>
         <div className='keyboard'>
           {noteKeys.map((noteKey, index) => {
-            return <Note key={`note${index}`} oscBank={vcos[index]} letter={noteKey} gain1={gain1} gain2={gain2} velocity={velocity} freq={frequencies[48 + index]} frequencies={frequencies} octave={octave} detune1={detune1} detune2={detune2} wave1={wave1} wave2={wave2} attack1={attack1} decay1={decay1} sustain1={sustain1} release1={release1} attack2={attack2} decay2={decay2} sustain2={sustain2} release2={release2} />
+            return <Note key={`note${index}`} oscBank={vcos[index]} letter={noteKey} gain1={gain1} gain2={gain2} velocity={velocity} freq={frequencies[48 + index]} frequencies={frequencies} octave={octave} detune1={detune1} detune2={detune2} wave1={wave1} wave2={wave2} attack1={attack1} decay1={decay1} sustain1={sustain1} release1={release1} attack2={attack2} decay2={decay2} sustain2={sustain2} release2={release2} oscilloscope={oscilloscope} />
           })}
         </div>
         <button className='midi' onClick={() => {
